@@ -11,9 +11,7 @@ class Bench:
 
     def display(self):
         for row in self.grid:
-            for cell in row:
-                print(cell.display, end=" ")
-            print()
+            print(" ".join(cell.display for cell in row))
 
     def place(self, x, y, component):
         if not isinstance(self.grid[y][x], Space):
