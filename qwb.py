@@ -2,7 +2,20 @@
 
 
 class Bench:
-    pass
+    def __init__(self, width, height):
+        self.grid = []
+        for i in range(height):
+            self.grid.append([Space()] * width)
+
+    def display(self):
+        for row in self.grid:
+            for cell in row:
+                print(cell.display, end=" ")
+            print()
+
+
+class Space:
+    display = "."
 
 
 class Source:
@@ -30,4 +43,5 @@ class Detector:
 
 
 if __name__ == "__main__":
-    pass
+    bench = Bench(10, 10)
+    bench.display()
