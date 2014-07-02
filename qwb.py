@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 
+import random
+
+BLACK, WHITE = True, False
+HARD, SOFT = True, False
+
 
 class Bench:
     def __init__(self, width, height):
@@ -24,13 +29,18 @@ class Bench:
 
     def run(self, iterations=1):
         for i in range(iterations):
+            # classical for now
+            p = dict(
+                color=random.choice([BLACK, WHITE]),
+                hardness=random.choice([HARD, SOFT]),
+            )
             x, y = self.source_location
             dx, dy = 1, 0
             while True:
                 x += dx
                 y += dy
                 try:
-                    dx, dy = self.grid[y][x].hit(dx, dy)
+                    p, dx, dy = self.grid[y][x].hit(p, dx, dy)
                     if (dx, dy) == (0, 0):
                         break
                 except IndexError:
@@ -40,8 +50,8 @@ class Bench:
 class Space:
     display = "."
 
-    def hit(self, dx, dy):
-        return dx, dy
+    def hit(self, p, dx, dy):
+        return p, dx, dy
 
 
 class Source:
@@ -63,8 +73,8 @@ class HardnessBox(Box):
 class Mirror:
     display = "/"
 
-    def hit(self, dx, dy):
-        return -dy, -dx
+    def hit(self, p, dx, dy):
+        return p, -dy, -dx
 
 
 class Detector:
@@ -73,9 +83,9 @@ class Detector:
     def __init__(self):
         self.count = 0
 
-    def hit(self, dx, dy):
+    def hit(self, p, dx, dy):
         self.count += 1
-        return 0, 0
+        return p, 0, 0
 
 
 if __name__ == "__main__":
