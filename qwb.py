@@ -95,6 +95,13 @@ class Joiner:
             return p, 0, 0
 
 
+class Wall:
+    display = "W"
+
+    def hit(self, p, dx, dy):
+        return p, 0, 0
+
+
 class Detector:
     display = "D"
 
@@ -204,6 +211,25 @@ if __name__ == "__main__":
     bench.place(5, 8, HardnessBox())
     bench.place(5, 6, Mirror())
     bench.place(7, 8, Mirror())
+    bench.place(7, 6, Joiner())
+    bench.place(9, 6, ColorBox())
+    detector_1 = Detector()
+    detector_2 = Detector()
+    bench.place(11, 6, detector_1)
+    bench.place(9, 4, detector_2)
+    bench.display()
+    bench.run(100)
+    # the result here will be very different classical vs quantum
+    print(detector_1.count)
+    print(detector_2.count)
+
+    bench = Bench(13, 10)
+    bench.place(1, 8, Source())
+    bench.place(3, 8, ColorBox())
+    bench.place(5, 8, HardnessBox())
+    bench.place(5, 6, Mirror())
+    bench.place(7, 8, Mirror())
+    bench.place(6, 8, Wall())
     bench.place(7, 6, Joiner())
     bench.place(9, 6, ColorBox())
     detector_1 = Detector()
