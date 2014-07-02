@@ -24,18 +24,19 @@ class Bench:
             self.source_location = (x, y)
         self.grid[y][x] = component
 
-    def run(self):
-        x, y = self.source_location
-        dx, dy = 1, 0
-        while True:
-            x += dx
-            y += dy
-            try:
-                dx, dy = self.grid[y][x].hit(dx, dy)
-                if (dx, dy) == (0, 0):
+    def run(self, iterations=1):
+        for i in range(iterations):
+            x, y = self.source_location
+            dx, dy = 1, 0
+            while True:
+                x += dx
+                y += dy
+                try:
+                    dx, dy = self.grid[y][x].hit(dx, dy)
+                    if (dx, dy) == (0, 0):
+                        break
+                except IndexError:
                     break
-            except IndexError:
-                break
 
 
 class Space:
@@ -92,7 +93,6 @@ if __name__ == "__main__":
     print(detector_2.count)
     bench.place(6, 8, Mirror())
     bench.display()
-    bench.run()
-    bench.run()
+    bench.run(2)
     print(detector_1.count)
     print(detector_2.count)
