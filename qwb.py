@@ -59,15 +59,23 @@ class Source:
 
 
 class Box:
-    pass
+    def hit(self, p, dx, dy):
+        if (dx, dy) != (1, 0):  # particle must come from left
+            return p, 0, 0
+        if p[self.property_name]:
+            return p, 0, -1
+        else:
+            return p, 1, 0
 
 
 class ColorBox(Box):
-    pass
+    display = "C"
+    property_name = "color"
 
 
 class HardnessBox(Box):
-    pass
+    display = "H"
+    property_name = "hardness"
 
 
 class Mirror:
@@ -99,8 +107,21 @@ if __name__ == "__main__":
     bench.run()
     print(detector_1.count)
     print(detector_2.count)
+
     bench.place(6, 8, Mirror())
     bench.display()
     bench.run(2)
+    print(detector_1.count)
+    print(detector_2.count)
+
+    bench = Bench(10, 10)
+    bench.place(1, 8, Source())
+    bench.place(5, 8, ColorBox())
+    detector_1 = Detector()
+    detector_2 = Detector()
+    bench.place(7, 8, detector_1)
+    bench.place(5, 6, detector_2)
+    bench.display()
+    bench.run(100)
     print(detector_1.count)
     print(detector_2.count)
