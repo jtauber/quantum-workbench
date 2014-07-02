@@ -31,7 +31,7 @@ class Bench:
             x += dx
             y += dy
             try:
-                dx, dy = self.grid[y][x].run(dx, dy)
+                dx, dy = self.grid[y][x].hit(dx, dy)
                 if (dx, dy) == (0, 0):
                     break
             except IndexError:
@@ -41,7 +41,7 @@ class Bench:
 class Space:
     display = "."
 
-    def run(self, dx, dy):
+    def hit(self, dx, dy):
         return dx, dy
 
 
@@ -62,7 +62,10 @@ class HardnessBox(Box):
 
 
 class Mirror:
-    pass
+    display = "/"
+
+    def hit(self, dx, dy):
+        return -dy, -dx
 
 
 class Detector:
@@ -71,7 +74,7 @@ class Detector:
     def __init__(self):
         self.count = 0
 
-    def run(self, dx, dy):
+    def hit(self, dx, dy):
         self.count += 1
         return 0, 0
 
@@ -84,6 +87,12 @@ if __name__ == "__main__":
     bench.place(8, 8, detector_1)
     bench.place(6, 6, detector_2)
     bench.display()
+    bench.run()
+    print(detector_1.count)
+    print(detector_2.count)
+    bench.place(6, 8, Mirror())
+    bench.display()
+    bench.run()
     bench.run()
     print(detector_1.count)
     print(detector_2.count)
