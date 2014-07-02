@@ -13,13 +13,18 @@ class Bench:
                 print(cell.display, end=" ")
             print()
 
+    def place(self, x, y, component):
+        if not isinstance(self.grid[y][x], Space):
+            raise ValueError
+        self.grid[y][x] = component
+
 
 class Space:
     display = "."
 
 
 class Source:
-    pass
+    display = "S"
 
 
 class Box:
@@ -44,4 +49,5 @@ class Detector:
 
 if __name__ == "__main__":
     bench = Bench(10, 10)
+    bench.place(1, 8, Source())
     bench.display()
